@@ -1,8 +1,13 @@
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts'
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts'
 
 const COLORS = ['#4CAF50', '#F44336', '#FFC107']
+const SENTIMENT_COLORS = {
+  positive: '#4CAF50',
+  negative: '#F44336',
+  neutral: '#FFC107'
+}
 
 export default function Dashboard() {
   const [data, setData] = useState({ pieData: [], keywords: [] })
@@ -54,49 +59,83 @@ export default function Dashboard() {
     >
       <h2 className="text-2xl font-bold mb-6 text-white">Sentiment Analysis Dashboard</h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Pie Chart */}
-        <div className="bg-gray-700 p-6 rounded-lg">
-          <h3 className="text-xl font-semibold mb-4 text-white">Sentiment Distribution</h3>
-          <div className="h-[400px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={data.pieData}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={false}
-                  label={({ name, percentage }) => `${name} ${percentage}%`}
-                  outerRadius={150}
-                  fill="#8884d8"
-                  dataKey="value"
+      <div className="grid grid-cols-1 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Pie Chart */}
+          <div className="bg-gray-700 p-6 rounded-lg">
+            <h3 className="text-xl font-semibold mb-4 text-white">Sentiment Distribution</h3>
+            <div className="h-[400px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={data.pieData}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    label={({ name, percentage }) => `${name} ${percentage}%`}
+                    outerRadius={150}
+                    fill="#8884d8"
+                    dataKey="value"
+                  >
+                    {data.pieData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          {/* Keywords */}
+          <div className="bg-gray-700 p-6 rounded-lg">
+            <h3 className="text-xl font-semibold mb-4 text-white">Top Keywords</h3>
+            <div className="space-y-3">
+              {data.keywords.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex items-center justify-between bg-gray-600 p-3 rounded-lg"
                 >
-                  {data.pieData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip />
-                <Legend />
-              </PieChart>
-            </ResponsiveContainer>
+                  <span className="text-white">{item.name}</span>
+                  <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">
+                    {item.value}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* Keywords */}
+        {/* Sentiment Correlation Graph */}
         <div className="bg-gray-700 p-6 rounded-lg">
-          <h3 className="text-xl font-semibold mb-4 text-white">Top Keywords</h3>
-          <div className="space-y-3">
-            {data.keywords.map((item, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-between bg-gray-600 p-3 rounded-lg"
+          <h3 className="text-xl font-semibold mb-4 text-white">Keyword Sentiment Distribution</h3>
+          <div className="h-[400px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={data.keywords}
+                margin={{ top: 20, right: 30, left: 20, bottom: 100 }}
               >
-                <span className="text-white">{item.name}</span>
-                <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">
-                  {item.value}
-                </span>
-              </div>
-            ))}
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis
+                  dataKey="name"
+                  angle={-45}
+                  textAnchor="end"
+                  interval={0}
+                  height={100}
+                  tick={{ fill: '#fff' }}
+                />
+                <YAxis tick={{ fill: '#fff' }} />
+                <Tooltip
+                  contentStyle={{ backgroundColor: '#1f2937', border: 'none' }}
+                  labelStyle={{ color: '#fff' }}
+                />
+                <Legend />
+                <Bar dataKey="sentiments.positive" stackId="sentiments" name="Positive" fill={SENTIMENT_COLORS.positive} />
+                <Bar dataKey="sentiments.negative" stackId="sentiments" name="Negative" fill={SENTIMENT_COLORS.negative} />
+                <Bar dataKey="sentiments.neutral" stackId="sentiments" name="Neutral" fill={SENTIMENT_COLORS.neutral} />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         </div>
       </div>

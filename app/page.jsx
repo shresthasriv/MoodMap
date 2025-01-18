@@ -1,56 +1,65 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 import Header from './components/Header'
 import Footer from './components/Footer'
-import { useState } from 'react'
-import Link from 'next/link'
+import { Button } from "@/components/ui/button"
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen bg-gray-900 text-white">
+    <div className="flex flex-col min-h-screen bg-gray-900">
       <Header />
-      <main className="flex-grow container mx-auto px-4 py-8 flex items-center">
-        <LandingContent />
-      </main>
-      <Footer />
-    </div>
-  )
-}
-
-function LandingContent() {
-  return (
-    <div className="flex w-full">
-      <motion.div
-        initial={{ opacity: 0, x: -50 }}
-        animate={{ opacity: 1, x: 0 }}
+      <motion.div 
+        className="flex-grow flex items-center justify-center px-4"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="w-3/5 pr-8"
       >
-        <h1 className="text-4xl font-bold mb-4">Welcome to MoodMap</h1>
-        <p className="text-xl mb-8">
-          Uncover the emotions behind your text with our advanced sentiment analysis model. 
-          MoodMap provides real-time insights into the emotional tone of your content, 
-          helping you make data-driven decisions and understand your audience better.
-        </p>
-        <motion.div
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+        <motion.div 
+          className="text-center"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
         >
-          <Link href="/login" className="inline-block bg-blue-500 text-white px-6 py-3 rounded-full text-lg font-semibold">
-            Try It Out
-          </Link>
+          <h1 className="text-5xl font-bold text-white mb-6">
+            Welcome to MoodMap
+          </h1>
+          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+            Discover the power of sentiment analysis with our advanced AI-driven platform. 
+            Gain valuable insights from your customer reviews and make data-driven decisions.
+          </p>
+          <motion.div
+            className="flex flex-col items-center gap-4"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <div className="flex gap-4 justify-center">
+              <Link href="/dashboard">
+                <Button
+                  className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-8 rounded-lg shadow-lg transform transition hover:scale-105"
+                >
+                  Try It Out
+                </Button>
+              </Link>
+              <Link href="/dashboard1">
+                <Button
+                  className="bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-8 rounded-lg shadow-lg transform transition hover:scale-105"
+                >
+                  Upload CSV File
+                </Button>
+              </Link>
+            </div>
+          </motion.div>
         </motion.div>
       </motion.div>
       <motion.div
-        initial={{ opacity: 0, x: 50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="w-2/5"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5, duration: 0.5 }}
       >
-        <img src="/placeholder.svg" alt="MoodMap Visualization" className="w-full h-auto rounded-lg shadow-lg" />
+        <Footer />
       </motion.div>
     </div>
   )
 }
-
