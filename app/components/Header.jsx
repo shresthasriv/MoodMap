@@ -5,53 +5,47 @@ import { Button } from "@/components/ui/button"
 export default function Header({ isLoggedIn = false }) {
   return (
     <motion.header
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="bg-gray-800 py-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+      className="py-6 border-b border-white/10"
     >
       <div className="container mx-auto px-4 flex justify-between items-center">
-        <Link href="/" className="text-2xl font-bold text-blue-400">
+        <Link href="/" className="text-sm uppercase tracking-widest">
           MoodMap
         </Link>
-        <nav className="flex items-center space-x-4">
-          <ul className="flex space-x-4">
-            <motion.li whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-              <Link href="#" className="text-gray-300 hover:text-white">
+        <nav className="flex items-center space-x-8">
+          <ul className="flex space-x-8">
+            <li>
+              <Link href="#" className="text-sm text-gray-400 hover:text-white transition-colors duration-200 uppercase tracking-widest">
                 About
               </Link>
-            </motion.li>
-            <motion.li whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-              <Link href="#" className="text-gray-300 hover:text-white">
+            </li>
+            <li>
+              <Link href="#" className="text-sm text-gray-400 hover:text-white transition-colors duration-200 uppercase tracking-widest">
                 Contact
               </Link>
-            </motion.li>
+            </li>
             {isLoggedIn && (
-              <motion.li whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                <Link href="/dashboard" className="text-gray-300 hover:text-white">
+              <li>
+                <Link href="/dashboard" className="text-sm text-gray-400 hover:text-white transition-colors duration-200 uppercase tracking-widest">
                   Dashboard
                 </Link>
-              </motion.li>
+              </li>
             )}
           </ul>
           {isLoggedIn ? (
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button variant="outline" className="text-gray-300 hover:text-white">
-                Log Out
-              </Button>
-            </motion.div>
+            <Button variant="outline" className="text-sm uppercase tracking-widest px-6 py-2 border border-white/20 hover:border-white rounded-none bg-transparent hover:bg-white hover:text-black transition-all duration-200">
+              Log Out
+            </Button>
           ) : (
             <>
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button variant="outline" className="text-gray-300 hover:text-white">
-                  Log In
-                </Button>
-              </motion.div>
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button variant="default" className="bg-blue-500 hover:bg-blue-600 text-white">
-                  Sign Up
-                </Button>
-              </motion.div>
+              <Button variant="outline" className="text-sm uppercase tracking-widest px-6 py-2 border border-white/20 hover:border-white rounded-none bg-transparent hover:bg-white hover:text-black transition-all duration-200">
+                Log In
+              </Button>
+              <Button variant="default" className="text-sm uppercase tracking-widest px-6 py-2 border border-white rounded-none bg-white text-black hover:bg-transparent hover:text-white transition-all duration-200">
+                Sign Up
+              </Button>
             </>
           )}
         </nav>
@@ -59,4 +53,3 @@ export default function Header({ isLoggedIn = false }) {
     </motion.header>
   )
 }
-
